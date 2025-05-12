@@ -1,0 +1,16 @@
+.hidden {
+    user-select: none;
+    color: #00000000;
+}
+
+.bottom-margin {
+    margin-bottom: 8px;
+}
+
+.hidden-input {
+    display: none;
+}
+
+.cursor {
+    cursor: pointer;
+}

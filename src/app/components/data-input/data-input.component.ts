@@ -4,6 +4,7 @@ import {MatInput} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {ProcessGraphService} from '../../services/process-graph.service';
 import {FormControl, ReactiveFormsModule, ValidatorFn} from "@angular/forms";
+import {IlpnFileDropComponent} from "../../ilpn-code/components/ilpn-file-drop/ilpn-file-drop.component";
 
 @Component({
     standalone: true,
@@ -16,7 +17,8 @@ import {FormControl, ReactiveFormsModule, ValidatorFn} from "@angular/forms";
         MatInput,
         MatButton,
         ReactiveFormsModule,
-        MatError
+        MatError,
+        IlpnFileDropComponent
     ]
 })
 export class DataInputComponent {
