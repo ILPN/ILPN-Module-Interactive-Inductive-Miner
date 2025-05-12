@@ -30,9 +30,9 @@
     @let eventText = event | truncateEventLog : eventLogWidth();
     <svg:text
         xmlns:svg="http://www.w3.org/2000/svg"
-        [attr.x]="dfgNode().x"
-        [attr.y]="dfgNode().y - (dfgNode().height / 2) + (PhysicsHelper.eventLogTextPadding / 2) + ($index * PhysicsHelper.lineHeight)"
-        text-anchor="middle"
+        [attr.x]="dfgNode().x - (eventLogWidth() / 2) + (PhysicsHelper.eventLogTextPaddingHorizontal / 2)"
+        [attr.y]="dfgNode().y - (dfgNode().height / 2) + (PhysicsHelper.eventLogTextPaddingVertical / 2) + ($index * PhysicsHelper.lineHeight)"
+        text-anchor="start"
         font-size="12"
         fill="black"
         class="select-none pointer-events-none max-w-[160px] overflow-hidden overflow-ellipsis"

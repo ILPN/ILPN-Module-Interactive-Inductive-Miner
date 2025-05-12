@@ -1,6 +1,5 @@
 import {Node, NodeType} from "../classes/graph/node"
 import {Edge} from "../classes/graph/edge"
-import {BoundingBox} from "../classes/graph/bounding-box";
 
 export class PhysicsHelper {
     static k: number = 0.01
@@ -13,10 +12,11 @@ export class PhysicsHelper {
     static nodeRadius: number = PhysicsHelper.nodeDiameter / 2
 
     // DFG EventLog Text
-    static eventLogWidth: number = 200
-    static eventLogTextPadding: number = 30
+    static eventLogWidth: number = 400
+    static eventLogTextPaddingVertical: number = 30
+    static eventLogTextPaddingHorizontal: number = 20
     static lineHeight: number = 14
-    static characterWidth: number = 9
+    static characterWidth: number = 7.5
     static eventLogRadius: number = PhysicsHelper.eventLogWidth / 2
 
     // Place
@@ -173,24 +173,24 @@ export class PhysicsHelper {
         }
     }
 
-    public static calculateBoundingBoxEventLog(eventLog: string[][]): BoundingBox {
-        const height = eventLog.length * this.lineHeight + this.eventLogTextPadding
-        const eventWidths: Array<number> = eventLog.map(events => {
-            let length: number = 0
-            events.map(eventEntry => eventEntry.length).forEach(eventLength => length += eventLength)
-            return length
-        })
-        const width = Math.max(...eventWidths) * this.characterWidth + this.eventLogTextPadding
-
-        return {
-            x: 0,
-            y: 0,
-            width: width,
-            height: height
-        }
-    }
+    // public static calculateBoundingBoxEventLog(eventLog: string[][]): BoundingBox {
+    //     const height = eventLog.length * this.lineHeight + this.eventLogTextPaddingVertical
+    //     const eventWidths: Array<number> = eventLog.map(events => {
+    //         let length: number = 0
+    //         events.map(eventEntry => eventEntry.length).forEach(eventLength => length += eventLength)
+    //         return length
+    //     })
+    //     const width = Math.max(...eventWidths) * this.characterWidth + this.eventLogTextPaddingVertical
+    //
+    //     return {
+    //         x: 0,
+    //         y: 0,
+    //         width: width,
+    //         height: height
+    //     }
+    // }
 
     public static calculateEventLogHeight(eventLog: string[][]): number {
-        return PhysicsHelper.eventLogTextPadding + ((eventLog.length - 1) * PhysicsHelper.lineHeight) - (PhysicsHelper.lineHeight / 2)
+        return PhysicsHelper.eventLogTextPaddingVertical + ((eventLog.length - 1) * PhysicsHelper.lineHeight) - (PhysicsHelper.lineHeight / 2)
     }
 }
