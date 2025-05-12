@@ -68,11 +68,11 @@ export class DataInputComponent {
     }
 
     protected manualInputControl = new FormControl(
-`SetPc SetCfp
-+ SuggestPc SetUpCfp SendInvites ReceiveAnswers FinalizePc FinalizeCfp
-+ SuggestPc SendInvites SetUpCfp ReceiveAnswers FinalizePc FinalizeCfp
-+ SuggestPc SendInvites ReceiveAnswers SetUpCfp FinalizePc FinalizeCfp
-+ SuggestPc SendInvites ReceiveAnswers UpdateInvites SendInvites ReceiveAnswers FinalizePc SetUpCfp FinalizeCfp`,
+`SetPc SetCfp +
+SuggestPc SetUpCfp SendInvites ReceiveAnswers FinalizePc FinalizeCfp +
+SuggestPc SendInvites SetUpCfp ReceiveAnswers FinalizePc FinalizeCfp +
+SuggestPc SendInvites ReceiveAnswers SetUpCfp FinalizePc FinalizeCfp +
+SuggestPc SendInvites ReceiveAnswers UpdateInvites SendInvites ReceiveAnswers FinalizePc SetUpCfp FinalizeCfp`,
         [this.eventLogValidator]
     )
 
