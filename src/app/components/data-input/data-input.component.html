@@ -1,26 +1,10 @@
-<input type="file" accept=".xes" #fileInput class="hidden" (change)="onFileInputChange($event)">
 <div class="flex flex-col max-w-[1024px] mx-auto">
 
     <!-- Filedrop area -->
     <h2 class="mb-2">Import File</h2>
-    <div class="flex items-center justify-center cursor-pointer h-60 data-input"
-         [class.active]="dragCounter !== 0"
-         (dragenter)="onDragEnter($event)"
-         (dragleave)="onDragLeave($event)"
-         (drop)="onDrop($event)"
-         (dragover)="$event.preventDefault()"
-         (click)="fileInput.click()">
-
-        <!-- Prompt -->
-        <div class="flex flex-col items-center">
-            <span class="text-xl">Drag'n'Drop .XES file here</span>
-            <span class="italic">OR</span>
-            <span>Click to open file</span>
-        </div>
-
-    </div>
-
-    <app-ilpn-file-drop class="self-center"></app-ilpn-file-drop>
+    <app-ilpn-file-drop class="self-center"
+                        descriptionText="Drag'n'Drop a XES log file here"
+                        (fileContent)="handleFiles($event)"></app-ilpn-file-drop>
 
     <!-- Seperator -->
     <div class="flex items-center gap-3 my-5 mx-12">

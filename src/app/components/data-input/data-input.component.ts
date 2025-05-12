@@ -5,6 +5,7 @@ import {MatButton} from "@angular/material/button";
 import {ProcessGraphService} from '../../services/process-graph.service';
 import {FormControl, ReactiveFormsModule, ValidatorFn} from "@angular/forms";
 import {IlpnFileDropComponent} from "../../ilpn-code/components/ilpn-file-drop/ilpn-file-drop.component";
+import {DropFile} from "../../ilpn-code/utility/drop-file";
 
 @Component({
     standalone: true,
@@ -27,36 +28,15 @@ export class DataInputComponent {
     }
 
     /***************************************************************** File *****************************************************************/
-    protected dragCounter = 0
-
-    protected onFileInputChange(event: Event) {
-        const input = event.target as HTMLInputElement
-        const file = input.files![0]
-        input.value = ''
-        this.handleFile(file)
-    }
-
-    protected onDragEnter(e: DragEvent) {
-        if (e.dataTransfer!.types[0] === 'Files') {
-            this.dragCounter++
+    protected handleFiles(files: Array<DropFile>) {
+        if(files.length > 0) {
+            this.handleFile(files[0].content)
         }
     }
 
-    protected onDragLeave(e: DragEvent) {
-        if (e.dataTransfer!.types[0] === 'Files') {
-            this.dragCounter--
-        }
-    }
-
-    protected onDrop(event: DragEvent) {
-        event.preventDefault()
-        this.dragCounter = 0
-        this.handleFile(event.dataTransfer!.files[0])
-    }
-
-    protected async handleFile(file: File) {
+    protected handleFile(fileContent: string) {
         const eventLog: string[][] = []
-        const dom = new DOMParser().parseFromString(await file.text(), 'text/xml')
+        const dom = new DOMParser().parseFromString(fileContent, 'text/xml')
         const traceNodes = dom.getElementsByTagName("trace")
         for (let i = 0; i < traceNodes.length; i++) {
             const events: string[] = []
