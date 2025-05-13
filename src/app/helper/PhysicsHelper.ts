@@ -13,10 +13,10 @@ export class PhysicsHelper {
 
     // DFG EventLog Text
     static eventLogWidth: number = 400
-    static eventLogTextPaddingVertical: number = 30
+    static eventLogTextPaddingVertical: number = 40
     static eventLogTextPaddingHorizontal: number = 20
-    static lineHeight: number = 14
-    static characterWidth: number = 7.5
+    static lineHeight: number = 17
+    static characterWidth: number = 8.8
     static eventLogRadius: number = PhysicsHelper.eventLogWidth / 2
 
     // Place
