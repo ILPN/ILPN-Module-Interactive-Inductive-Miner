@@ -16,7 +16,6 @@ import {IlpnFileDisplayComponent} from "../ilpn-file-display/ilpn-file-display.c
 export class IlpnFileDropComponent extends AbstractFileUploadComponent {
 
     @Input() descriptionText: string = '';
-    @Input() squareContent: string | undefined;
     @Input() showText = true;
     @Input() contentText: string | undefined;
     @Input() bold: boolean | undefined;

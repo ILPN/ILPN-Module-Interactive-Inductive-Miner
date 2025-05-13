@@ -17,7 +17,6 @@ export class IlpnFileDisplayComponent  {
     }
 
     @Input() bold: boolean | undefined = false;
-    @Input() squareContent: string | undefined;
     @Input() contentText: string | undefined;
     @Input() hover: boolean = false;
 
