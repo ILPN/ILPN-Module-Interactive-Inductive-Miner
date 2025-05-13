@@ -1,7 +1,7 @@
 <div class="flex flex-col max-w-[1024px] mx-auto">
 
     <!-- Filedrop area -->
-    <h2 class="mb-2">Import File</h2>
+    <h2 class="mb-2">Import Event Log</h2>
     <app-ilpn-file-drop class="self-center"
                         descriptionText="Drag'n'Drop a XES log file here"
                         contentText="🦫"
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Manual event log input -->
-    <h2 class="mb-2">Enter Event Log manually</h2>
+    <h2 class="mb-2">Enter Event Log</h2>
     <mat-form-field appearance="outline">
         <textarea rows="6" matInput [formControl]="manualInputControl"></textarea>
         @if (manualInputControl.hasError("invalid")) {
@@ -24,5 +24,5 @@
             </mat-error>
         }
     </mat-form-field>
-    <button mat-flat-button class="start-button self-center" [disabled]="manualInputControl.invalid" (click)="parseEventLog()">START!</button>
+    <button mat-raised-button class="start-button self-center" [disabled]="manualInputControl.invalid" (click)="parseEventLog()">START!</button>
 </div>
