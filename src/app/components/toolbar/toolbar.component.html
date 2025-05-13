@@ -4,82 +4,58 @@
     <div class="overflow-x-clip">
         <div class="relative toolbox" [style.left]="selectionService.selectedDfg() ? 0 : '-100%'">
 
-            <!-- Selection Type -->
+            <!-- Cut Type -->
             <div class="toolbox-section">
-                <span class="toolbox-section-label">Selection</span>
+                <span class="toolbox-section-label">Cut</span>
+                @for (type of CutType | keyvalue: originalOrder; track type.value) {
+                    <span mat-ripple class="toolbox-section-value" [class.selected]="toolbarService.cutType() == type.value" (click)="toolbarService.cutType.set(type.value)">
+                        {{type.value}}
+                    </span>
+                }
+            </div>
 
-                <span mat-ripple class="toolbox-section-value" matTooltip="Move nodes by dragging" [class.selected]="toolbarService.selectionType() === SelectionType.NONE" (click)="toolbarService.selectionType.set(SelectionType.NONE)">
-                    None
+            <!-- Fallthrough Type -->
+            <div class="toolbox-section">
+                <span class="toolbox-section-label">Fallthrough</span>
+
+                <span mat-ripple
+                      class="toolbox-section-value"
+                      matTooltip="Repeating Pattern per Tau Do/Redo"
+                      [class.selected]="toolbarService.fallthroughType() === Fallthrough.SPT"
+                      (click)="toolbarService.fallthroughType.set(Fallthrough.SPT)">
+                    Tau-Loop
                 </span>
 
-                <span mat-ripple class="toolbox-section-value" matTooltip="Select nodes by clicking" [class.selected]="toolbarService.selectionType() === SelectionType.CLICK" (click)="toolbarService.selectionType.set(SelectionType.CLICK)">
-                    Click
+                <span mat-ripple
+                      class="toolbox-section-value"
+                      matTooltip="Activity once per Trace"
+                      [class.selected]="toolbarService.fallthroughType() === Fallthrough.AOPT"
+                      (click)="toolbarService.fallthroughType.set(Fallthrough.AOPT)">
+                    AOPT
                 </span>
 
-                <span mat-ripple class="toolbox-section-value" matTooltip="Select nodes with a lasso" [class.selected]="toolbarService.selectionType() === SelectionType.LASSO" (click)="toolbarService.selectionType.set(SelectionType.LASSO)">
-                    Lasso
+                <span mat-ripple
+                      class="toolbox-section-value"
+                      matTooltip="Conversion to Flower-Model"
+                      [class.selected]="toolbarService.fallthroughType() === Fallthrough.FLOWER"
+                      (click)="toolbarService.fallthroughType.set(Fallthrough.FLOWER)">
+                    Flower
                 </span>
             </div>
 
-            <!-- Animation wrapper-->
-            <div class="overflow-x-clip">
-                <div class="relative toolbox" [style.left]="toolbarService.selectionType() === SelectionType.NONE ? '-100%' : 0">
+            <!-- Validate Button -->
+            @let needsNode = toolbarService.cutType() || toolbarService.fallthroughType() === Fallthrough.AOPT;
+            <button mat-fab extended
+                    (click)="validateCut()"
+                    [disabled]="needsNode && selectionService.selectedNodes().length == 0"
+                    matTooltip="Validate if cut / fallthrough is correct">
+                <mat-icon>check</mat-icon>
+                Validate
+            </button>
 
-                    <!-- Cut Type -->
-                    <div class="toolbox-section">
-                        <span class="toolbox-section-label">Cut</span>
-                        @for (type of CutType | keyvalue: originalOrder; track type.value) {
-                            <span mat-ripple class="toolbox-section-value" [class.selected]="toolbarService.cutType() == type.value" (click)="toolbarService.cutType.set(type.value)">
-                                {{type.value}}
-                            </span>
-                        }
-                    </div>
-
-                    <!-- Fallthrough Type -->
-                    <div class="toolbox-section">
-                        <span class="toolbox-section-label">Fallthrough</span>
-
-                        <span mat-ripple
-                              class="toolbox-section-value"
-                              matTooltip="Repeating Pattern per Tau Do/Redo"
-                              [class.selected]="toolbarService.fallthroughType() === Fallthrough.SPT"
-                              (click)="toolbarService.fallthroughType.set(Fallthrough.SPT)">
-                            Tau-Loop
-                        </span>
-
-                        <span mat-ripple
-                              class="toolbox-section-value"
-                              matTooltip="Activity once per Trace"
-                              [class.selected]="toolbarService.fallthroughType() === Fallthrough.AOPT"
-                              (click)="toolbarService.fallthroughType.set(Fallthrough.AOPT)">
-                            AOPT
-                        </span>
-
-                        <span mat-ripple
-                              class="toolbox-section-value"
-                              matTooltip="Conversion to Flower-Model"
-                              [class.selected]="toolbarService.fallthroughType() === Fallthrough.FLOWER"
-                              (click)="toolbarService.fallthroughType.set(Fallthrough.FLOWER)">
-                            Flower
-                        </span>
-                    </div>
-
-                    <!-- Validate Button -->
-                    @let needsNode = toolbarService.cutType() || toolbarService.fallthroughType() === Fallthrough.AOPT;
-                    <button mat-fab extended
-                            (click)="validateCut()"
-                            [disabled]="needsNode && selectionService.selectedNodes().length == 0"
-                            matTooltip="Validate if cut / fallthrough is correct">
-                        <mat-icon>check</mat-icon>
-                        Validate
-                    </button>
-
-                    <button mat-fab matTooltip="I need a hint!" (click)="showHint()">
-                        <mat-icon>tips_and_updates</mat-icon>
-                    </button>
-
-                </div>
-            </div>
+            <button mat-fab matTooltip="I need a hint!" (click)="showHint()">
+                <mat-icon>tips_and_updates</mat-icon>
+            </button>
 
         </div>
     </div>
