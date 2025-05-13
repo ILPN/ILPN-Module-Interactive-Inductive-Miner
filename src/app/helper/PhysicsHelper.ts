@@ -12,7 +12,7 @@ export class PhysicsHelper {
     static nodeRadius: number = PhysicsHelper.nodeDiameter / 2
 
     // DFG EventLog Text
-    static eventLogWidth: number = 400
+    static eventLogWidth: number = 200
     static eventLogTextPaddingVertical: number = 40
     static eventLogTextPaddingHorizontal: number = 20
     static lineHeight: number = 17
