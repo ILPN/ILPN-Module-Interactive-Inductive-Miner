@@ -43,12 +43,41 @@ export class DataInputComponent {
             const events: string[] = []
             const traceEventNodes = traceNodes[i].getElementsByTagName("event")
             const forbiddenNodes = ['start', 'play', 'stop', 'end']
-            for (let j = 0; j < traceEventNodes.length; j++) {
-                const eventValue = traceEventNodes[j].firstElementChild!.getAttribute("value") as string
-                if (forbiddenNodes.includes(eventValue.toLowerCase())) {
-                    continue
+
+            eventNodeIteration: for (let j = 0; j < traceEventNodes.length; j++) {
+                const eventAttributeNodes = traceEventNodes[j].children;
+                let eventName;
+                let eventLifecycle;
+
+                for (let k = 0; k < eventAttributeNodes.length; k++) {
+                    const attributeNode = eventAttributeNodes.item(k)!;
+                    const attributeName = attributeNode.getAttribute('key') as string;
+
+                    if (attributeName === 'concept:name') {
+                        eventName = attributeNode.getAttribute("value") as string
+                        if (forbiddenNodes.includes(eventName.toLowerCase())) {
+                            console.warn(`event with concept:name "${eventName}" skipped! Reserved name.`);
+                            continue eventNodeIteration;
+                        }
+                        if (eventLifecycle !== undefined) {
+                            break;
+                        }
+                    } else if (attributeName === 'lifecycle:transition') {
+                        eventLifecycle = attributeNode.getAttribute("value") as string
+                        if (eventName !== undefined) {
+                            break;
+                        }
+                    }
                 }
-                events.push(traceEventNodes[j].firstElementChild!.getAttribute("value") as string)
+
+                if (eventName === undefined) {
+                    console.warn('trace with a nameless event! Skipping.')
+                    console.log(traceEventNodes);
+                    continue;
+                }
+                if (eventLifecycle === undefined || eventLifecycle === 'complete') {
+                    events.push(eventName);
+                }
             }
             eventLog.push(events)
         }
