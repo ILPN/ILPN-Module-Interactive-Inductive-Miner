@@ -17,7 +17,7 @@
     <!-- Manual event log input -->
     <h2 class="mb-2">Enter Event Log</h2>
     <mat-form-field appearance="outline">
-        <textarea rows="6" matInput [formControl]="manualInputControl"></textarea>
+        <textarea rows="6" matInput [formControl]="manualInputControl" class="ta-font"></textarea>
         @if (manualInputControl.hasError("invalid")) {
             <mat-error>
                 Please check format: event1 event2 event3 + event2 event5 event3 + event2 event0

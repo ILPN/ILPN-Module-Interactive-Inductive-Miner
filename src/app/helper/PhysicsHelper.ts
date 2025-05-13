@@ -16,7 +16,7 @@ export class PhysicsHelper {
     static eventLogTextPaddingVertical: number = 40
     static eventLogTextPaddingHorizontal: number = 20
     static lineHeight: number = 17
-    static characterWidth: number = 8.8
+    static characterWidth: number = 10.05
     static eventLogRadius: number = PhysicsHelper.eventLogWidth / 2
 
     // Place
