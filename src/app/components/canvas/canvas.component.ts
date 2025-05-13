@@ -59,6 +59,7 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
     private resizeObserver!: ResizeObserver
     private physicsInterval: number = -1
     draggingNode: Node | null = null
+    private selectedNode: Node | null = null
 
     private wasDragging: boolean = false;
     private isResizing: boolean = false;
@@ -130,16 +131,8 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
 
     // HANDLING OF MOUSE EVENTS
     onMouseDown(event: MouseEvent) {
-        switch (this.toolbarService.selectionType()) {
-            case SelectionType.CLICK:
-                break
-            case SelectionType.LASSO:
-                if (this.selectionService.selectedDfg()) {
-                    this.lassoSelectionStart(event)
-                }
-                break
-            case SelectionType.NONE:
-                break
+        if (this.selectionService.selectedDfg() && !this.draggingNode) {
+            this.lassoSelectionStart(event)
         }
     }
 
@@ -155,28 +148,23 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
         if (this.draggingNode) {
             this.wasDragging = true;
         }
-        switch (this.toolbarService.selectionType()) {
-            case SelectionType.CLICK:
-                break
-            case SelectionType.LASSO:
-                this.lassoSelectionMove(event)
-                break
-            case SelectionType.NONE:
-                this.onDragMove(event)
-                break
+
+        if (this.selectedNode !== null) {
+            this.toggleNodeSelected(this.selectedNode);
+            this.selectedNode = null;
+        }
+        if (this.draggingNode) {
+            this.onDragMove(event)
+        } else {
+            this.lassoSelectionMove(event)
         }
     }
 
     onMouseUp() {
-        switch (this.toolbarService.selectionType()) {
-            case SelectionType.CLICK:
-                break
-            case SelectionType.LASSO:
-                this.lassoSelectionEnd()
-                break
-            case SelectionType.NONE:
-                this.onDragEnd()
-                break
+        this.lassoSelectionEnd()
+        this.onDragEnd()
+        if (this.selectedNode !== null) {
+            this.selectedNode = null;
         }
     }
 
@@ -185,19 +173,15 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
         if (this.selectionService.selectedDfg() == null) {
             this.onDragStart(node)
         } else {
-            switch (this.toolbarService.selectionType()) {
-                case SelectionType.CLICK:
-                    this.toggleNodeSelected(node)
-                    break
-                case SelectionType.NONE:
-                    this.onDragStart(node)
-                    break
+            if (this.toggleNodeSelected(node)) {
+                this.selectedNode = node;
             }
+            this.onDragStart(node)
         }
     }
 
     nodeMouseUp() {
-        if (this.selectionService.selectedDfg() == null || this.toolbarService.selectionType() === SelectionType.NONE) {
+        if (this.selectionService.selectedDfg() == null) {
             this.onDragEnd()
         }
     }
@@ -254,9 +238,12 @@ export class CanvasComponent implements AfterViewInit, OnDestroy {
         this.lassoPath = ''
     }
 
-    toggleNodeSelected(node: Node): void {
-        if (node.type !== NodeType.node || node.name === 'play' || node.name === 'stop') return //only allow adding nodes (not dfg or places)
+    toggleNodeSelected(node: Node): boolean {
+        if (node.type !== NodeType.node || node.name === 'play' || node.name === 'stop') { //only allow adding nodes (not dfg or places)
+            return false;
+        }
         this.selectionService.toggleNodeSelected(node)
+        return true;
     }
 
 //dfg auswählen
